@@ -26,11 +26,9 @@ function App() {
 
   return (
     <div className="mx-auto max-w-2xl p-4">
-      <SearchForm />
+      <SearchForm defaultUsername={username} isFetching={isFetching} />
 
       <main className="pt-4">
-        {isFetching && <Loader2 className="animate-spin mx-auto" />}
-
         {showSearchLabel && (
           <p className="mb-2 text-sm">
             <span className="text-muted-foreground">Showing 5 users for</span>{" "}

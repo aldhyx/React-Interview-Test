@@ -17,12 +17,15 @@ const formSchema = z.object({
   username: z.string().min(1).max(39),
 });
 
-const SearchForm = () => {
+const SearchForm = (props: {
+  defaultUsername?: string;
+  isFetching: boolean;
+}) => {
   const navigate = useNavigate({ from: "/" });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      username: props.defaultUsername || "",
     },
   });
 
@@ -51,7 +54,7 @@ const SearchForm = () => {
           className="w-full"
           disabled={form.formState.isSubmitting}
         >
-          {form.formState.isSubmitting && <Loader2 className="animate-spin" />}
+          {props.isFetching && <Loader2 className="animate-spin" />}
           Search on Github
         </Button>
       </form>
