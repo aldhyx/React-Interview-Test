@@ -1,7 +1,6 @@
 import { createFileRoute, useSearch } from "@tanstack/react-router";
 import SearchForm from "@/components/search-form";
 import CollapsibleItem from "@/components/collapsible-item";
-import { Loader2, Star } from "lucide-react";
 import { z } from "zod";
 import { fallback, zodValidator } from "@tanstack/zod-adapter";
 import { useSearchGithubUser } from "@/hooks/query/use-search-github-user";
