@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -17,15 +17,13 @@ const formSchema = z.object({
   username: z.string().min(1).max(39),
 });
 
-const SearchForm = (props: {
-  defaultUsername?: string;
-  isFetching: boolean;
-}) => {
+const SearchForm = (props: { isFetching: boolean }) => {
+  const { username } = useSearch({ from: "/" });
   const navigate = useNavigate({ from: "/" });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: props.defaultUsername || "",
+      username: username || "",
     },
   });
 

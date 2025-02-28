@@ -1,14 +1,15 @@
-import { useState, type PropsWithChildren } from "react";
-import { ChevronDown, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ChevronDown } from "lucide-react";
+import { useState, type ReactElement } from "react";
 
 const CollapsibleItem = ({
   title,
-  children,
-}: PropsWithChildren<{
+  renderComponent,
+}: {
   title: string;
-}>) => {
-  const [open, setIsOpen] = useState(false);
+  renderComponent: (props: { expanded: boolean }) => ReactElement;
+}) => {
+  const [expanded, setExpanded] = useState(false);
 
   return (
     <>
@@ -16,15 +17,11 @@ const CollapsibleItem = ({
         role="button"
         tabIndex={0}
         onClick={() => {
-          // @todo
-          console.log("Click");
-          setIsOpen((prevState) => !prevState);
+          setExpanded((prevState) => !prevState);
         }}
         onKeyDown={(e) => {
-          // @todo
           if (e.key === "Enter") {
-            console.log("Click");
-            setIsOpen((prevState) => !prevState);
+            setExpanded((prevState) => !prevState);
           }
         }}
         className="flex gap-12 bg-secondary rounded p-4 cursor-pointer justify-between"
@@ -33,12 +30,22 @@ const CollapsibleItem = ({
 
         <span>
           <ChevronDown
-            className={cn(["transition-all", open && "rotate-180"])}
+            className={cn([
+              "transition-transform duration-300",
+              expanded && "rotate-180",
+            ])}
           />
         </span>
       </div>
 
-      {open && <div>{children}</div>}
+      <div
+        className={cn([
+          "transition-all duration-300 overflow-hidden",
+          expanded ? "opacity-100 max-h-max" : "opacity-0 max-h-0",
+        ])}
+      >
+        {renderComponent({ expanded })}
+      </div>
     </>
   );
 };

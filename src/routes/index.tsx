@@ -4,7 +4,8 @@ import CollapsibleItem from "@/components/collapsible-item";
 import { Loader2, Star } from "lucide-react";
 import { z } from "zod";
 import { fallback, zodValidator } from "@tanstack/zod-adapter";
-import { useSearchUser } from "@/hooks/query/use-search-user";
+import { useSearchGithubUser } from "@/hooks/query/use-search-github-user";
+import RepoList from "@/components/repo-list";
 
 const searchSchema = z.object({
   username: fallback(z.string().max(39).optional(), ""),
@@ -17,16 +18,13 @@ export const Route = createFileRoute("/")({
 
 function App() {
   const { username } = useSearch({ from: "/" });
-  const { status, data, error, isFetching } = useSearchUser(username);
+  const { data, error, isFetching } = useSearchGithubUser(username);
   const showSearchLabel = !isFetching && username;
   const showUserList = !isFetching && data.length > 0;
 
-  // @todo: remove
-  console.log({ status, data, error, isFetching });
-
   return (
     <div className="mx-auto max-w-2xl p-4">
-      <SearchForm defaultUsername={username} isFetching={isFetching} />
+      <SearchForm isFetching={isFetching} />
 
       <main className="pt-4">
         {showSearchLabel && (
@@ -36,11 +34,23 @@ function App() {
           </p>
         )}
 
+        {error && (
+          <div className="text-sm text-destructive">
+            <span>Something went wrong, </span>
+            <span>{error.message}</span>
+          </div>
+        )}
+
         {showUserList && (
           <ul className="grid grid-cols-1 gap-2">
             {data.map((item) => (
               <li key={item.id}>
-                <CollapsibleItem title={item.login}></CollapsibleItem>
+                <CollapsibleItem
+                  title={item.login}
+                  renderComponent={({ expanded }) => (
+                    <RepoList expanded={expanded} username={item.login} />
+                  )}
+                />
               </li>
             ))}
           </ul>
