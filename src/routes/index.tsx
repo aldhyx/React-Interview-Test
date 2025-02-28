@@ -20,6 +20,7 @@ function App() {
   const { data, error, isFetching } = useSearchGithubUser(username);
   const showSearchLabel = !isFetching && username;
   const showUserList = !isFetching && data.length > 0;
+  const showEmptyInfo = !isFetching && data.length === 0;
 
   return (
     <div className="mx-auto max-w-2xl p-4">
@@ -28,7 +29,9 @@ function App() {
       <main className="pt-4">
         {showSearchLabel && (
           <p className="mb-2 text-sm">
-            <span className="text-muted-foreground">Showing 5 users for</span>{" "}
+            <span className="text-muted-foreground">
+              Showing {data.length} users for
+            </span>{" "}
             <strong>{username}</strong>.
           </p>
         )}
@@ -37,6 +40,12 @@ function App() {
           <div className="text-sm text-destructive">
             <span>Something went wrong, </span>
             <span>{error.message}</span>
+          </div>
+        )}
+
+        {showEmptyInfo && (
+          <div className="text-sm">
+            <span>No user found! Please, try another keywords.</span>
           </div>
         )}
 
