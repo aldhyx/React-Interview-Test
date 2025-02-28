@@ -24,6 +24,15 @@ A simple React app to search for GitHub users and view their public repositories
 
 ## 🔧 Getting Started
 
+Create `.env` file
+
+- VITE_GITHUB_TOKEN: Your GIthub Fine-grained personal access tokens
+
+```bash
+cp env.example .env
+
+```
+
 1️⃣ Install Dependencies
 
 ```bash
