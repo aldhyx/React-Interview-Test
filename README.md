@@ -58,7 +58,6 @@ npm run build
 - `src/routes/` – File-based routing setup
 - `src/components/` – Reusable UI components
 - `src/hooks/` – Custom hooks
-- `src/pages/` – Page components
 
 ## 📜 License
 
