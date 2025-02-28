@@ -20,7 +20,7 @@ function App() {
   const { data, error, isFetching } = useSearchGithubUser(username);
   const showSearchLabel = !isFetching && username;
   const showUserList = !isFetching && data.length > 0;
-  const showEmptyInfo = !isFetching && data.length === 0;
+  const showEmptyInfo = !isFetching && username && data.length === 0;
 
   return (
     <div className="mx-auto max-w-2xl p-4">

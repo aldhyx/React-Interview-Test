@@ -11,6 +11,14 @@ export function useSearchGithubUser(username?: string) {
       const response = await fetch(
         `https://api.github.com/search/users?q=${username}&per_page=5`
       );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.message || `Error status: ${response.status}`
+        );
+      }
+
       const data = await response.json();
       return data.items as GithubUser[];
     },

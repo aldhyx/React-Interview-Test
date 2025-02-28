@@ -2,7 +2,10 @@ import { useGetGithubRepo } from "@/hooks/query/use-get-github-repo";
 import { Loader2, Star } from "lucide-react";
 
 const RepoList = (props: { expanded: boolean; username: string }) => {
-  const { data, error, isFetching } = useGetGithubRepo(props.username);
+  const { data, error, isFetching } = useGetGithubRepo({
+    username: props.username,
+    expanded: props.expanded,
+  });
   const showRepoList = !isFetching && data.length > 0;
 
   if (isFetching) {
